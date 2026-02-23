@@ -6,9 +6,6 @@ export interface Task {
   description: string;
   dueDate: string;
   status: TaskStatus;
-  userEmail: string;
-  createdAt: string;
-  updatedAt: string;
 }
 
 export interface TaskInput {

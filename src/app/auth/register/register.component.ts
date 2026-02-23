@@ -35,18 +35,20 @@ export class RegisterComponent {
     }
 
     const formValue = this.registerForm.getRawValue();
-    const result = this.authService.register({
-      fullName: formValue.fullName ?? '',
-      email: formValue.email ?? '',
-      password: formValue.password ?? ''
-    });
 
-    if (!result.success) {
-      this.errorMessage = result.message ?? 'Registration failed. Please try again.';
-      return;
-    }
-
-    this.router.navigate(['/login'], { queryParams: { registered: '1' } });
+    this.authService
+      .register({
+        fullName: formValue.fullName ?? '',
+        email: formValue.email ?? '',
+        password: formValue.password ?? '',
+        confirmPassword: formValue.confirmPassword ?? ''
+      })
+      .subscribe({
+        next: () => this.router.navigate(['/login'], { queryParams: { registered: '1' } }),
+        error: (error) => {
+          this.errorMessage = error?.error?.message ?? 'Registration failed. Please try again.';
+        }
+      });
   }
 
   protected hasError(controlName: 'fullName' | 'email' | 'password' | 'confirmPassword'): boolean {

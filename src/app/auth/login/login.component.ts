@@ -25,8 +25,12 @@ export class LoginComponent {
 
   constructor() {
     const registeredParam = this.activatedRoute.snapshot.queryParamMap.get('registered');
+    const expiredParam = this.activatedRoute.snapshot.queryParamMap.get('expired');
+
     if (registeredParam === '1') {
       this.successMessage = 'Registration successful. Please log in.';
+    } else if (expiredParam === '1') {
+      this.errorMessage = 'Session expired. Please log in again.';
     }
   }
 
@@ -39,14 +43,13 @@ export class LoginComponent {
     }
 
     const formValue = this.loginForm.getRawValue();
-    const result = this.authService.login(formValue.email ?? '', formValue.password ?? '');
 
-    if (!result.success) {
-      this.errorMessage = result.message ?? 'Login failed. Please try again.';
-      return;
-    }
-
-    this.router.navigate(['/dashboard']);
+    this.authService.login(formValue.email ?? '', formValue.password ?? '').subscribe({
+      next: () => this.router.navigate(['/dashboard']),
+      error: (error) => {
+        this.errorMessage = error?.error?.message ?? 'Invalid email or password. Please try again.';
+      }
+    });
   }
 
   protected hasError(controlName: 'email' | 'password'): boolean {

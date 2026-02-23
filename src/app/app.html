@@ -2,17 +2,23 @@
   <div class="container-fluid">
     <a class="navbar-brand fw-bold text-white" routerLink="/login">TaskFlow</a>
 
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navbarNav"
-      aria-controls="navbarNav"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-    >
-      <span class="navbar-toggler-icon"></span>
-    </button>
+    <div class="ms-auto d-flex align-items-center gap-2">
+      @if (authService.isAuthenticated()) {
+        <button type="button" class="btn btn-outline-light btn-sm" (click)="onLogout()">Logout</button>
+      }
+
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
 
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto align-items-md-center gap-md-2">
@@ -26,11 +32,6 @@
         } @else {
           <li class="nav-item">
             <a class="nav-link" routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
-          </li>
-          <li class="nav-item">
-            <button type="button" class="btn btn-outline-light btn-sm mt-2 mt-md-0" (click)="onLogout()">
-              Logout
-            </button>
           </li>
         }
       </ul>

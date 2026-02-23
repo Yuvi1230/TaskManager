@@ -2,21 +2,15 @@ export interface RegisterPayload {
   fullName: string;
   email: string;
   password: string;
+  confirmPassword: string;
 }
 
-export interface RegisterResult {
-  success: boolean;
-  message?: string;
+export interface RegisterResponse {
+  message: string;
 }
 
-export interface LoginResult {
-  success: boolean;
-  token?: string;
-  message?: string;
-}
-
-export interface StoredUser {
-  fullName: string;
+export interface AuthResponse {
+  token: string;
   email: string;
-  password: string;
+  fullName: string;
 }

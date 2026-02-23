@@ -42,18 +42,19 @@ export class TaskFormComponent implements OnInit {
 
     this.isEditMode = true;
     this.taskId = Number(idParam);
-    const task = this.taskService.getTaskById(this.taskId);
 
-    if (!task) {
-      this.errorMessage = 'Task not found or you do not have access to it.';
-      return;
-    }
-
-    this.taskForm.patchValue({
-      title: task.title,
-      description: task.description,
-      dueDate: task.dueDate,
-      status: task.status
+    this.taskService.getTaskById(this.taskId).subscribe({
+      next: (task) => {
+        this.taskForm.patchValue({
+          title: task.title,
+          description: task.description,
+          dueDate: task.dueDate,
+          status: task.status
+        });
+      },
+      error: (error) => {
+        this.errorMessage = error?.error?.message ?? 'Task not found or you do not have access to it.';
+      }
     });
   }
 
@@ -66,21 +67,21 @@ export class TaskFormComponent implements OnInit {
     }
 
     const payload = this.taskForm.getRawValue();
+    const requestBody = {
+      title: payload.title ?? '',
+      description: payload.description ?? '',
+      dueDate: payload.dueDate ?? '',
+      status: (payload.status as TaskStatus) ?? 'TODO'
+    };
 
     if (!this.isEditMode) {
-      const createdTask = this.taskService.createTask({
-        title: payload.title ?? '',
-        description: payload.description ?? '',
-        dueDate: payload.dueDate ?? '',
-        status: (payload.status as TaskStatus) ?? 'TODO'
+      this.taskService.createTask(requestBody).subscribe({
+        next: () => this.router.navigate(['/dashboard']),
+        error: (error) => {
+          this.errorMessage = error?.error?.message ?? 'Unable to create task. Please try again.';
+        }
       });
 
-      if (!createdTask) {
-        this.errorMessage = 'Unable to create task. Please try again.';
-        return;
-      }
-
-      this.router.navigate(['/dashboard']);
       return;
     }
 
@@ -89,19 +90,12 @@ export class TaskFormComponent implements OnInit {
       return;
     }
 
-    const updatedTask = this.taskService.updateTask(this.taskId, {
-      title: payload.title ?? '',
-      description: payload.description ?? '',
-      dueDate: payload.dueDate ?? '',
-      status: (payload.status as TaskStatus) ?? 'TODO'
+    this.taskService.updateTask(this.taskId, requestBody).subscribe({
+      next: () => this.router.navigate(['/dashboard']),
+      error: (error) => {
+        this.errorMessage = error?.error?.message ?? 'Unable to update task. Please try again.';
+      }
     });
-
-    if (!updatedTask) {
-      this.errorMessage = 'Unable to update task. Please try again.';
-      return;
-    }
-
-    this.router.navigate(['/dashboard']);
   }
 
   protected onDelete(): void {
@@ -114,8 +108,12 @@ export class TaskFormComponent implements OnInit {
       return;
     }
 
-    this.taskService.deleteTask(this.taskId);
-    this.router.navigate(['/dashboard']);
+    this.taskService.deleteTask(this.taskId).subscribe({
+      next: () => this.router.navigate(['/dashboard']),
+      error: (error) => {
+        this.errorMessage = error?.error?.message ?? 'Unable to delete task.';
+      }
+    });
   }
 
   protected onCancel(): void {
@@ -125,5 +123,41 @@ export class TaskFormComponent implements OnInit {
   protected hasError(controlName: 'title' | 'dueDate'): boolean {
     const control = this.taskForm.get(controlName);
     return !!control && control.invalid && (control.touched || control.dirty);
+  }
+
+  protected get displayTaskId(): string {
+    if (!this.taskId) {
+      return 'N/A';
+    }
+
+    return `TK-${String(this.taskId).padStart(3, '0')}`;
+  }
+
+  protected get selectedStatusLabel(): string {
+    const status = (this.taskForm.get('status')?.value as TaskStatus | null) ?? 'TODO';
+
+    if (status === 'IN_PROGRESS') {
+      return 'In Progress';
+    }
+
+    if (status === 'DONE') {
+      return 'Done';
+    }
+
+    return 'To-Do';
+  }
+
+  protected get selectedStatusBadgeClass(): string {
+    const status = (this.taskForm.get('status')?.value as TaskStatus | null) ?? 'TODO';
+
+    if (status === 'IN_PROGRESS') {
+      return 'status-chip status-progress';
+    }
+
+    if (status === 'DONE') {
+      return 'status-chip status-done';
+    }
+
+    return 'status-chip status-todo';
   }
 }

@@ -1,31 +1,43 @@
 import { isPlatformBrowser } from '@angular/common';
-import { inject, Injectable, PLATFORM_ID, signal } from '@angular/core';
-import { LoginResult, RegisterPayload, RegisterResult, StoredUser } from '../auth/models/auth.models';
+import { inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { API_BASE_URL } from '../core/api.constants';
+import { AuthResponse, RegisterPayload, RegisterResponse } from '../auth/models/auth.models';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private readonly platformId = inject(PLATFORM_ID);
+  private readonly http = inject(HttpClient);
   private readonly tokenStorageKey = 'taskflow_jwt_token';
-  private readonly usersStorageKey = 'taskflow_users';
-  private readonly isAuthenticatedSignal = signal(false);
 
-  constructor() {
-    if (this.isBrowser()) {
-      this.isAuthenticatedSignal.set(!!localStorage.getItem(this.tokenStorageKey));
-    }
+  register(payload: RegisterPayload): Observable<RegisterResponse> {
+    return this.http.post<RegisterResponse>(`${API_BASE_URL}/api/auth/register`, payload);
   }
 
-  isAuthenticated() {
+  login(email: string, password: string): Observable<AuthResponse> {
+    return new Observable<AuthResponse>((observer) => {
+      this.http
+        .post<AuthResponse>(`${API_BASE_URL}/api/auth/login`, { email, password })
+        .subscribe({
+          next: (response) => {
+            if (this.isBrowser()) {
+              localStorage.setItem(this.tokenStorageKey, response.token);
+            }
+            observer.next(response);
+            observer.complete();
+          },
+          error: (error) => observer.error(error)
+        });
+    });
+  }
+
+  logout(): void {
     if (!this.isBrowser()) {
-      return false;
+      return;
     }
 
-    const token = localStorage.getItem(this.tokenStorageKey);
-    if (!token) {
-      return false;
-    }
-
-    return !this.isTokenExpired(token);
+    localStorage.removeItem(this.tokenStorageKey);
   }
 
   getToken(): string | null {
@@ -36,100 +48,17 @@ export class AuthService {
     return localStorage.getItem(this.tokenStorageKey);
   }
 
-  getCurrentUserEmail(): string | null {
-    const payload = this.parseTokenPayload(this.getToken());
-    return typeof payload?.['sub'] === 'string' ? (payload['sub'] as string) : null;
-  }
-
-  register(payload: RegisterPayload): RegisterResult {
+  isAuthenticated(): boolean {
     if (!this.isBrowser()) {
-      return { success: false, message: 'Registration is unavailable in this environment.' };
+      return false;
     }
 
-    const users = this.getStoredUsers();
-    const normalizedEmail = payload.email.trim().toLowerCase();
-
-    const duplicateUser = users.find((user) => user.email.toLowerCase() === normalizedEmail);
-    if (duplicateUser) {
-      return { success: false, message: 'Email is already registered. Please use another email.' };
+    const token = this.getToken();
+    if (!token) {
+      return false;
     }
 
-    users.push({
-      fullName: payload.fullName.trim(),
-      email: normalizedEmail,
-      password: payload.password
-    });
-    localStorage.setItem(this.usersStorageKey, JSON.stringify(users));
-
-    return { success: true };
-  }
-
-  login(email: string, password: string): LoginResult {
-    if (!this.isBrowser()) {
-      return { success: false, message: 'Login is unavailable in this environment.' };
-    }
-
-    const users = this.getStoredUsers();
-    const normalizedEmail = email.trim().toLowerCase();
-
-    const matchedUser = users.find(
-      (user) => user.email.toLowerCase() === normalizedEmail && user.password === password
-    );
-
-    if (!matchedUser) {
-      return {
-        success: false,
-        message: 'Invalid email or password. Please try again.'
-      };
-    }
-
-    const token = this.generateMockJwt(matchedUser.email, matchedUser.fullName);
-    localStorage.setItem(this.tokenStorageKey, token);
-    this.isAuthenticatedSignal.set(true);
-
-    return { success: true, token };
-  }
-
-  logout(): void {
-    if (!this.isBrowser()) {
-      return;
-    }
-
-    localStorage.removeItem(this.tokenStorageKey);
-    this.isAuthenticatedSignal.set(false);
-  }
-
-  private getStoredUsers(): StoredUser[] {
-    if (!this.isBrowser()) {
-      return [];
-    }
-
-    const storedUsers = localStorage.getItem(this.usersStorageKey);
-    if (!storedUsers) {
-      return [];
-    }
-
-    try {
-      return JSON.parse(storedUsers) as StoredUser[];
-    } catch {
-      return [];
-    }
-  }
-
-  private generateMockJwt(email: string, fullName: string): string {
-    const now = Math.floor(Date.now() / 1000);
-    const header = btoa(JSON.stringify({ alg: 'HS256', typ: 'JWT' }));
-    const payload = btoa(
-      JSON.stringify({
-        sub: email,
-        name: fullName,
-        iat: now,
-        exp: now + 24 * 60 * 60
-      })
-    );
-    const signature = btoa('taskflow-signature');
-
-    return `${header}.${payload}.${signature}`;
+    return !this.isTokenExpired(token);
   }
 
   private isBrowser(): boolean {
