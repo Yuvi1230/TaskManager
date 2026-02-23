@@ -1,0 +1,62 @@
+<section class="auth-screen">
+  <div class="auth-grid">
+    <aside class="branding-panel">
+      <h1>TaskFlow</h1>
+      <p>Organize your team tasks in one secure place.</p>
+    </aside>
+
+    <div class="form-panel">
+      <div class="auth-card card shadow-lg border-0">
+        <div class="card-body p-4 p-md-5">
+          <h2 class="text-center mb-1">Welcome Back</h2>
+          <p class="text-center text-muted mb-4">Sign in to continue to your dashboard.</p>
+
+          @if (successMessage) {
+            <div class="alert alert-success py-2">{{ successMessage }}</div>
+          }
+
+          @if (errorMessage) {
+            <div class="alert alert-danger py-2">{{ errorMessage }}</div>
+          }
+
+          <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate>
+            <div class="mb-3">
+              <label for="email" class="form-label">Email Address</label>
+              <input
+                id="email"
+                type="email"
+                class="form-control"
+                placeholder="you@example.com"
+                formControlName="email"
+              />
+              @if (hasError('email')) {
+                <small class="text-danger">Enter a valid email address.</small>
+              }
+            </div>
+
+            <div class="mb-3">
+              <label for="password" class="form-label">Password</label>
+              <input
+                id="password"
+                type="password"
+                class="form-control"
+                placeholder="Your password"
+                formControlName="password"
+              />
+              @if (hasError('password')) {
+                <small class="text-danger">Password is required.</small>
+              }
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 mt-2">Login</button>
+          </form>
+
+          <p class="text-center mt-4 mb-0">
+            New to TaskFlow?
+            <a routerLink="/register" class="auth-link">Create an account</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

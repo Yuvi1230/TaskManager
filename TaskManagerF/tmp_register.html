@@ -1,0 +1,126 @@
+<!DOCTYPE html><html lang="en"><head>
+  <script type="module" src="/@vite/client"></script>
+
+  <meta charset="utf-8">
+  <title>TaskManagerF</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="stylesheet" href="styles.css"><style ng-app-id="ng">
+
+[_nghost-ng-c1804222186] {
+  display: block;
+  min-height: 100vh;
+  background: #f4f6fa;
+}
+.app-navbar[_ngcontent-ng-c1804222186] {
+  background-color: #1e3a5f;
+}
+.navbar-brand[_ngcontent-ng-c1804222186] {
+  font-size: 1.8rem;
+  letter-spacing: 0.3px;
+}
+.nav-link[_ngcontent-ng-c1804222186] {
+  color: #c7d7ea;
+  font-weight: 600;
+}
+.nav-link[_ngcontent-ng-c1804222186]:hover, 
+.nav-link.active[_ngcontent-ng-c1804222186] {
+  color: #ffffff;
+}
+.app-main[_ngcontent-ng-c1804222186] {
+  min-height: calc(100vh - 72px);
+}
+/*# sourceMappingURL=/app.css.map */</style><style ng-app-id="ng">
+
+.auth-screen[_ngcontent-ng-c893992342] {
+  min-height: calc(100vh - 72px);
+}
+.auth-grid[_ngcontent-ng-c893992342] {
+  min-height: calc(100vh - 72px);
+  display: grid;
+  grid-template-columns: 1fr;
+}
+.branding-panel[_ngcontent-ng-c893992342] {
+  display: none;
+  background-color: #1e3a5f;
+  color: #ffffff;
+  padding: 4rem 3rem;
+}
+.branding-panel[_ngcontent-ng-c893992342]   h1[_ngcontent-ng-c893992342] {
+  font-size: 3rem;
+  font-weight: 700;
+}
+.branding-panel[_ngcontent-ng-c893992342]   p[_ngcontent-ng-c893992342] {
+  font-size: 1.4rem;
+  max-width: 360px;
+}
+.form-panel[_ngcontent-ng-c893992342] {
+  display: grid;
+  place-items: center;
+  padding: 2rem 1rem;
+}
+.auth-card[_ngcontent-ng-c893992342] {
+  width: min(92vw, 480px);
+  border-radius: 16px;
+}
+h2[_ngcontent-ng-c893992342] {
+  color: #1e293b;
+  font-weight: 700;
+}
+.form-label[_ngcontent-ng-c893992342] {
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  font-weight: 700;
+  color: #475569;
+}
+.form-control[_ngcontent-ng-c893992342] {
+  border-radius: 10px;
+  min-height: 44px;
+}
+.password-strength[_ngcontent-ng-c893992342] {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.75rem;
+  color: #64748b;
+}
+.strength-bars[_ngcontent-ng-c893992342] {
+  display: inline-grid;
+  grid-template-columns: repeat(4, 22px);
+  gap: 4px;
+}
+.bar[_ngcontent-ng-c893992342] {
+  height: 6px;
+  border-radius: 8px;
+  background: #cbd5e1;
+}
+.bar.active[_ngcontent-ng-c893992342] {
+  background: #22c55e;
+}
+.auth-link[_ngcontent-ng-c893992342] {
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 600;
+}
+.auth-link[_ngcontent-ng-c893992342]:hover {
+  text-decoration: underline;
+}
+@media (min-width: 992px) {
+  .auth-grid[_ngcontent-ng-c893992342] {
+    grid-template-columns: 1fr 1fr;
+  }
+  .branding-panel[_ngcontent-ng-c893992342] {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}
+/*# sourceMappingURL=/register.component.css.map */</style></head>
+<body><!--nghm--><script type="text/javascript" id="ng-event-dispatch-contract">(()=>{function p(t,n,r,o,e,i,f,m){return{eventType:t,event:n,targetElement:r,eic:o,timeStamp:e,eia:i,eirp:f,eiack:m}}function u(t){let n=[],r=e=>{n.push(e)};return{c:t,q:n,et:[],etc:[],d:r,h:e=>{r(p(e.type,e,e.target,t,Date.now()))}}}function s(t,n,r){for(let o=0;o<n.length;o++){let e=n[o];(r?t.etc:t.et).push(e),t.c.addEventListener(e,t.h,r)}}function c(t,n,r,o,e=window){let i=u(t);e._ejsas||(e._ejsas={}),e._ejsas[n]=i,s(i,r),s(i,o,!0)}window.__jsaction_bootstrap=c;})();
+</script><script>window.__jsaction_bootstrap(document.body,"ng",["click","submit","input","compositionstart","compositionend"],["blur"]);</script>
+  <app-root ng-version="21.1.5" _nghost-ng-c1804222186="" ngh="1" ng-server-context="ssr"><nav _ngcontent-ng-c1804222186="" class="navbar navbar-expand-md navbar-dark app-navbar"><div _ngcontent-ng-c1804222186="" class="container-fluid"><a _ngcontent-ng-c1804222186="" routerlink="/login" class="navbar-brand fw-bold text-white" href="/login" jsaction="click:;">TaskFlow</a><button _ngcontent-ng-c1804222186="" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"><span _ngcontent-ng-c1804222186="" class="navbar-toggler-icon"></span></button><div _ngcontent-ng-c1804222186="" id="navbarNav" class="collapse navbar-collapse"><ul _ngcontent-ng-c1804222186="" class="navbar-nav ms-auto align-items-md-center gap-md-2"><li _ngcontent-ng-c1804222186="" class="nav-item"><a _ngcontent-ng-c1804222186="" routerlink="/login" routerlinkactive="active" class="nav-link" href="/login" jsaction="click:;">Login</a></li><li _ngcontent-ng-c1804222186="" class="nav-item"><a _ngcontent-ng-c1804222186="" routerlink="/register" routerlinkactive="active" class="nav-link active" href="/register" jsaction="click:;">Register</a></li><!--container--><!--container--></ul></div></div></nav><main _ngcontent-ng-c1804222186="" class="app-main"><router-outlet _ngcontent-ng-c1804222186=""></router-outlet><app-register _nghost-ng-c893992342="" ngh="0"><section _ngcontent-ng-c893992342="" class="auth-screen"><div _ngcontent-ng-c893992342="" class="auth-grid"><aside _ngcontent-ng-c893992342="" class="branding-panel"><h1 _ngcontent-ng-c893992342="">TaskFlow</h1><p _ngcontent-ng-c893992342="">Join thousands of teams building better workflows.</p></aside><div _ngcontent-ng-c893992342="" class="form-panel"><div _ngcontent-ng-c893992342="" class="auth-card card shadow-lg border-0"><div _ngcontent-ng-c893992342="" class="card-body p-4 p-md-5"><h2 _ngcontent-ng-c893992342="" class="text-center mb-1">Create your Account</h2><p _ngcontent-ng-c893992342="" class="text-center text-muted mb-4">It's free and only takes a minute</p><form _ngcontent-ng-c893992342="" novalidate="" class="ng-untouched ng-pristine ng-invalid" jsaction="submit:;"><div _ngcontent-ng-c893992342="" class="mb-3"><label _ngcontent-ng-c893992342="" for="fullName" class="form-label">Full Name</label><input _ngcontent-ng-c893992342="" id="fullName" type="text" placeholder="Alex Johnson" formcontrolname="fullName" class="form-control ng-untouched ng-pristine ng-invalid" value="" jsaction="input:;blur:;compositionstart:;compositionend:;"><!--container--></div><div _ngcontent-ng-c893992342="" class="mb-3"><label _ngcontent-ng-c893992342="" for="email" class="form-label">Email Address</label><input _ngcontent-ng-c893992342="" id="email" type="email" placeholder="you@example.com" formcontrolname="email" class="form-control ng-untouched ng-pristine ng-invalid" value="" jsaction="input:;blur:;compositionstart:;compositionend:;"><!--container--></div><div _ngcontent-ng-c893992342="" class="mb-2"><label _ngcontent-ng-c893992342="" for="password" class="form-label">Password</label><input _ngcontent-ng-c893992342="" id="password" type="password" placeholder="Min. 8 characters" formcontrolname="password" class="form-control ng-untouched ng-pristine ng-invalid" value="" jsaction="input:;blur:;compositionstart:;compositionend:;"><!--container--></div><div _ngcontent-ng-c893992342="" class="password-strength mb-3"><span _ngcontent-ng-c893992342="">Password strength:</span><div _ngcontent-ng-c893992342="" aria-hidden="true" class="strength-bars"><span _ngcontent-ng-c893992342="" class="bar"></span><span _ngcontent-ng-c893992342="" class="bar"></span><span _ngcontent-ng-c893992342="" class="bar"></span><span _ngcontent-ng-c893992342="" class="bar"></span></div><strong _ngcontent-ng-c893992342="">Weak</strong></div><div _ngcontent-ng-c893992342="" class="mb-3"><label _ngcontent-ng-c893992342="" for="confirmPassword" class="form-label">Confirm Password</label><input _ngcontent-ng-c893992342="" id="confirmPassword" type="password" placeholder="Re-enter password" formcontrolname="confirmPassword" class="form-control ng-untouched ng-pristine ng-invalid" value="" jsaction="input:;blur:;compositionstart:;compositionend:;"><!--container--></div><!--container--><!--container--><button _ngcontent-ng-c893992342="" type="submit" class="btn btn-primary w-100 mt-2">Create Account</button></form><p _ngcontent-ng-c893992342="" class="text-center mt-4 mb-0"> Already have an account? <a _ngcontent-ng-c893992342="" routerlink="/login" class="auth-link" href="/login" jsaction="click:;">Sign in here</a></p></div></div></div></div></section></app-register><!--container--></main></app-root>
+<script src="main.js" type="module"></script>
+
+<script id="ng-state" type="application/json">{"__nghData__":[{"t":{"19":"t6","24":"t7","29":"t8","44":"t9","45":"t10","46":"t11"},"c":{"19":[],"24":[],"29":[],"44":[],"45":[],"46":[]}},{"t":{"8":"t0","9":"t1"},"c":{"8":[{"i":"t0","r":2}],"9":[],"11":[{"i":"c893992342","r":1}]}}]}</script></body></html>

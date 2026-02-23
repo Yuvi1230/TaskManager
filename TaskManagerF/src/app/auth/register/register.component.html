@@ -1,0 +1,101 @@
+<section class="auth-screen">
+  <div class="auth-grid">
+    <aside class="branding-panel">
+      <h1>TaskFlow</h1>
+      <p>Join thousands of teams building better workflows.</p>
+    </aside>
+
+    <div class="form-panel">
+      <div class="auth-card card shadow-lg border-0">
+        <div class="card-body p-4 p-md-5">
+          <h2 class="text-center mb-1">Create your Account</h2>
+          <p class="text-center text-muted mb-4">It's free and only takes a minute</p>
+
+          <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" novalidate>
+            <div class="mb-3">
+              <label for="fullName" class="form-label">Full Name</label>
+              <input
+                id="fullName"
+                type="text"
+                class="form-control"
+                placeholder="Alex Johnson"
+                formControlName="fullName"
+              />
+              @if (hasError('fullName')) {
+                <small class="text-danger">Full name is required.</small>
+              }
+            </div>
+
+            <div class="mb-3">
+              <label for="email" class="form-label">Email Address</label>
+              <input
+                id="email"
+                type="email"
+                class="form-control"
+                placeholder="you@example.com"
+                formControlName="email"
+              />
+              @if (hasError('email')) {
+                <small class="text-danger">Enter a valid email address.</small>
+              }
+            </div>
+
+            <div class="mb-2">
+              <label for="password" class="form-label">Password</label>
+              <input
+                id="password"
+                type="password"
+                class="form-control"
+                placeholder="Min. 8 characters"
+                formControlName="password"
+              />
+              @if (hasError('password')) {
+                <small class="text-danger">Password must be at least 8 characters.</small>
+              }
+            </div>
+
+            <div class="password-strength mb-3">
+              <span>Password strength:</span>
+              <div class="strength-bars" aria-hidden="true">
+                <span [class.active]="passwordStrength !== 'Weak'" class="bar"></span>
+                <span [class.active]="passwordStrength !== 'Weak'" class="bar"></span>
+                <span [class.active]="passwordStrength === 'Strong'" class="bar"></span>
+                <span class="bar"></span>
+              </div>
+              <strong>{{ passwordStrength }}</strong>
+            </div>
+
+            <div class="mb-3">
+              <label for="confirmPassword" class="form-label">Confirm Password</label>
+              <input
+                id="confirmPassword"
+                type="password"
+                class="form-control"
+                placeholder="Re-enter password"
+                formControlName="confirmPassword"
+              />
+              @if (hasError('confirmPassword')) {
+                <small class="text-danger">Confirm password is required.</small>
+              }
+            </div>
+
+            @if (registerForm.errors?.['passwordMismatch']) {
+              <div class="alert alert-danger py-2">Passwords do not match. Please try again.</div>
+            }
+
+            @if (errorMessage) {
+              <div class="alert alert-danger py-2">{{ errorMessage }}</div>
+            }
+
+            <button type="submit" class="btn btn-primary w-100 mt-2">Create Account</button>
+          </form>
+
+          <p class="text-center mt-4 mb-0">
+            Already have an account?
+            <a routerLink="/login" class="auth-link">Sign in here</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
